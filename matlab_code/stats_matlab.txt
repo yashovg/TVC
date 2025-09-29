@@ -1,0 +1,34 @@
+Fault Simulation Statistics (MATLAB Version)
+=============================================
+
+Circuit Details:
+- Primary Inputs: 3 (A, B, Sel)
+- Primary Outputs: 1 (Y)
+- Gate Count: 7
+
+Faults:
+- Total Collapsed Faults: 14
+
+Simulation Results:
+- Test Vectors Applied: 8
+- Detected Faults: 9
+- Undetected Faults: 5
+- Fault Coverage: 64.29%
+
+List of Detected Faults:
+- Node: nSel    , Stuck-at-0
+- Node: nSel    , Stuck-at-1
+- Node: w1      , Stuck-at-1
+- Node: w2      , Stuck-at-0
+- Node: Y       , Stuck-at-1
+- Node: A       , Stuck-at-0
+- Node: A       , Stuck-at-1
+- Node: B       , Stuck-at-1
+- Node: Sel     , Stuck-at-0
+
+List of Undetected Faults:
+- Node: w1      , Stuck-at-0
+- Node: w2      , Stuck-at-1
+- Node: Y       , Stuck-at-0
+- Node: B       , Stuck-at-0
+- Node: Sel     , Stuck-at-1

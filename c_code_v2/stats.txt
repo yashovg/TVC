@@ -1,0 +1,30 @@
+Fault Simulation Statistics
+=============================
+
+Circuit Details:
+- Primary Inputs: 3
+- Primary Outputs: 1
+- Gates: 5
+
+Faults:
+- Total Collapsed Faults: 10
+
+Simulation Results:
+- Test Vectors Applied: 8
+- Detected Faults: 8
+- Undetected Faults: 2
+- Fault Coverage: 80.00%
+
+List of Detected Faults:
+- Node: A, Stuck-at-0
+- Node: A, Stuck-at-1
+- Node: B, Stuck-at-0
+- Node: B, Stuck-at-1
+- Node: clk, Stuck-at-0
+- Node: clk, Stuck-at-1
+- Node: w1, Stuck-at-0
+- Node: w1, Stuck-at-1
+
+List of Undetected Faults:
+- Node: Q, Stuck-at-0
+- Node: Q, Stuck-at-1
