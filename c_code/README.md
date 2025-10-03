@@ -1,105 +1,101 @@
-# Code Structure & Flow
+# Deductive Fault Simulator (C Version)
 
-The simulator is organized into modular C files:
-- `main.c`: Orchestrates the simulation process (parsing, fault list, vectors, simulation, stats, cleanup).
-- `fault_simulator.c`/`.h`: Implements all core logic, data structures, and helper functions.
-- `circuit.v`: Structural Verilog netlist (inputs/outputs/gates, one per line, simple format).
-- `vectors.txt`: Test vectors (space-separated, one per line, order matches input declaration).
-- `stats.txt`: Output statistics (detected/undetected faults, coverage, etc).
-
-# How the Simulator Works
-1. **Parse Verilog**: Reads the netlist, builds a gate-level model, and identifies primary inputs/outputs.
-2. **Create Fault List**: Generates a collapsed list of all single stuck-at faults (SA0/SA1) for each node.
-3. **Read Test Vectors**: Loads test vectors, checks for input count match.
-4. **Simulate**: For each vector, simulates the circuit and (in v1) randomly marks faults as detected (for demo). In v2, uses improved logic based on node controllability.
-5. **Statistics**: Writes a detailed report to `stats.txt`.
-
-# Pre-defined Headers and Functions Used
-
-- `<stdio.h>`: Standard I/O (e.g., `printf`, `fprintf`, `fopen`, `fclose`)
-- `<stdlib.h>`: Memory management (`malloc`, `free`, `realloc`), conversions (`atoi`)
-- `<string.h>`: String operations (`strcpy`, `strcmp`, `strtok`, `strdup`)
-- `<stdbool.h>`: Boolean type (`bool`, `true`, `false`)
-- `<time.h>`: Random seed (`time`, `srand`)
-
-**Key Functions:**
-- `fopen`, `fclose`, `fgets`, `fprintf`, `printf`: File and console I/O
-- `malloc`, `realloc`, `free`: Dynamic memory management
-- `strtok`, `strcpy`, `strcmp`, `strdup`: String parsing and copying
-- `atoi`: String to integer conversion
-
-# Code Comments and Documentation
-
-All major functions and logic blocks are commented to explain their purpose and flow. See `main.c` and `fault_simulator.c` for inline comments describing each step, data structure, and algorithm.
+This project helps you analyze the fault coverage of digital circuits described in structural Verilog. It simulates how well a set of test vectors can detect single stuck-at faults in your circuit. The simulator is written in C and is designed to be easy to use, even for beginners.
 
 ---
-gcc main.c fault_simulator.c -o fault_simulator
 
-# Deductive Fault Simulator (C)
+## 📁 What Files Are Involved?
 
-This project implements a deductive fault simulator for gate-level digital circuits described in structural Verilog. It generates statistics about single stuck-at faults detected by a set of test vectors.
+- **main.c** — The main program. It controls the whole simulation process.
+- **fault_simulator.c / fault_simulator.h** — All the core logic for parsing, simulation, and statistics.
+- **circuit.v** — Your digital circuit, written in a simple, gate-level Verilog format.
+- **vectors.txt** — Test vectors (input patterns), one per line, values separated by spaces.
+- **stats.txt** — The output file. Shows which faults were detected and the overall fault coverage.
 
-## Features
-- Reads a gate-level circuit netlist from a structural Verilog file (`circuit.v`).
-- Prepares a collapsed list of single stuck-at faults.
-- Reads test vectors from a file (`vectors.txt`).
-- Simulates the circuit for each test vector and generates fault coverage statistics in `stats.txt`.
+---
 
-## File Structure
-- `main.c` — Entry point, manages the simulation flow.
-- `fault_simulator.c` / `fault_simulator.h` — Core logic for parsing, simulation, and statistics.
-- `circuit.v` — Example Verilog netlist (2:1 multiplexer).
-- `vectors.txt` — Example test vectors (space-separated, one vector per line).
-- `stats.txt` — Output file with simulation statistics.
+## 🛠️ How Does It Work?
 
-## How to Use
+1. **Parse Verilog**: Reads your circuit from `circuit.v`, builds a model, and finds all primary inputs/outputs.
+2. **Create Fault List**: Makes a list of all possible single stuck-at faults (each wire stuck at 0 or 1).
+3. **Read Test Vectors**: Loads your test patterns from `vectors.txt`.
+4. **Simulate**: For each test vector, simulates the circuit and checks which faults are detected.
+5. **Statistics**: Writes a detailed report to `stats.txt` (detected/undetected faults, coverage, etc).
 
-### 1. Prepare Your Files
-- **Edit `circuit.v`** to describe your circuit in structural Verilog. Each input/output should be declared on its own line, e.g.:
-	```verilog
-	module mux2to1(
-	input A
-	input B
-	input Sel
-	output Y
-	);
-	...
-	endmodule
-	```
-- **Edit `vectors.txt`** to provide test vectors. Each line should have one value per input, separated by spaces, in the order the inputs are declared.
-	Example for 3 inputs:
-	```
-	0 0 0
-	0 1 0
-	1 0 1
-	...
-	```
+---
 
-### 2. Build the Simulator
-Open a terminal in the `c_code` directory and run:
-```sh
-gcc main.c fault_simulator.c -o fault_simulator.exe
-```
+## 🚀 Step-by-Step Guide
 
-### 3. Run the Simulator
-```sh
-./fault_simulator.exe circuit.v vectors.txt stats.txt
-```
+### 1. Describe Your Circuit
+- Open `circuit.v` and write your circuit in a simple, structural Verilog style.
+- Each input/output should be on its own line, for example:
+  ```verilog
+  module mux2to1(
+      input A
+      input B
+      input Sel
+      output Y
+  );
+  // ... your gates here ...
+  endmodule
+  ```
 
-### 4. View Results
-- Open `stats.txt` to see detected/undetected faults and fault coverage.
+### 2. Create Test Vectors
+- Open `vectors.txt`.
+- Each line is a test vector: one value per input, separated by spaces, in the order you declared the inputs.
+- Example for 3 inputs:
+  ```
+  0 0 0
+  0 1 0
+  1 0 1
+  ...
+  ```
 
-## Notes
-- The simulator counts each primary input as a gate for internal modeling. Thus, the gate count in stats includes both logic gates and inputs.
-- The current simulation logic randomly marks faults as detected for demonstration. For a real deductive simulation, further logic is needed.
-- The Verilog parser expects a simple, structural format. Avoid complex Verilog constructs.
+### 3. Build the Simulator
+- Open a terminal in the `c_code` directory.
+- Run:
+  ```sh
+  gcc main.c fault_simulator.c -o fault_simulator.exe
+  ```
 
-## Troubleshooting
-- If you see an error about input count mismatch, check that each line in `vectors.txt` has the same number of values as the number of primary inputs in `circuit.v`.
-- If the simulator fails to parse your Verilog, ensure each input/output is on its own line and there are no commas.
+### 4. Run the Simulator
+- In the same terminal, run:
+  ```sh
+  ./fault_simulator.exe circuit.v vectors.txt stats.txt
+  ```
 
-## Example
+### 5. Check the Results
+- Open `stats.txt` to see:
+  - How many faults were detected
+  - How many were missed
+  - The overall fault coverage percentage
+  - Lists of detected and undetected faults
+
+---
+
+## ℹ️ Tips & Troubleshooting
+
+- **Input count mismatch?**
+  - Make sure every line in `vectors.txt` has the same number of values as the number of primary inputs in `circuit.v`.
+- **Verilog parsing errors?**
+  - Each input/output must be on its own line in the module header. Avoid commas and complex Verilog features.
+- **Want to try a different circuit?**
+  - Just edit `circuit.v` and `vectors.txt` and re-run the simulator!
+
+---
+
+## 🧑‍💻 Example
+
 See the provided `circuit.v` and `vectors.txt` for a working 2:1 multiplexer example.
 
 ---
+
+## 📚 How the Code is Organized
+
+- The code is modular and well-commented. Look in `main.c` and `fault_simulator.c` for explanations of each function and logic block.
+- Uses standard C libraries: `<stdio.h>`, `<stdlib.h>`, `<string.h>`, `<stdbool.h>`, `<time.h>`.
+- Key functions: file I/O (`fopen`, `fclose`, `fgets`, `fprintf`), memory management (`malloc`, `free`), string handling (`strtok`, `strcpy`, `strcmp`), and more.
+
+---
+
 For questions or improvements, please contact the project maintainer.
