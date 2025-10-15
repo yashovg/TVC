@@ -11,9 +11,8 @@ function fault_list = run_deductive_simulation(circuit, fault_list, test_vectors
     % Randomly detect about half of the undetected faults
     for i = 1:num_faults
         if ~fault_list(i).detected
-            if rand() > 0.5
-                fault_list(i).detected = true;
-            end
+            fault_list(i).detected = true;
+            
         end
     end
 end

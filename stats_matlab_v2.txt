@@ -1,0 +1,24 @@
+Fault Simulation v2 Statistics
+============================
+
+Circuit:
+- Primary Inputs: 3 (A, B, Sel)
+- Primary Outputs: 1 (Y)
+- Gate Count: 3
+
+Simulation:
+- Test Vectors Applied: 8
+- Total Collapsed Faults: 6
+- Detected Faults: 0
+- Fault Coverage: 0.00%
+
+Detected Faults:
+- None
+
+Undetected Faults:
+- A stuck-at-0
+- A stuck-at-1
+- B stuck-at-0
+- B stuck-at-1
+- Sel stuck-at-0
+- Sel stuck-at-1
